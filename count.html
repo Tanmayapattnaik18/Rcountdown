@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Stopwatch</title>
+    <link rel="stylesheet" href="stopwatch.css">
+</head>
+<body>
+    <div class="countdown-container">
+        <div id="timer" class="stopwatch-display">5:00</div>
+        <div class="button-container">
+            <button id="startButton" class="control-button start-button" onclick="toggleStopwatch()">Start</button>
+            <button id="stopButton" class="control-button stop-button" onclick="toggleStopwatch()" style="display:none;">Stop</button>
+            <button id="resetButton" class="control-button" onclick="resetStopwatch()">Reset</button>
+        </div>
+    </div>
+
+    <script src="stopwatch.js"></script>
+</body>
+</html>
