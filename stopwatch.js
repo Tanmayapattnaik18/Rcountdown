@@ -1,5 +1,5 @@
 let startTime;
-let elapsedTime = 300000; 
+let elapsedTime = 300000;
 let timerInterval;
 let isRunning = false;
 
@@ -15,33 +15,40 @@ function printTime() {
     document.getElementById('timer').textContent = formatTime(elapsedTime);
 }
 
+function startStopwatch() {
+    startTime = Date.now();
+    timerInterval = setInterval(function() {
+        let now = Date.now();
+        elapsedTime = Math.max(0, elapsedTime - (now - startTime));
+        printTime();
+
+        if (elapsedTime <= 0) {
+            clearInterval(timerInterval);
+            document.getElementById('timer').classList.add('countdown-complete');
+        }
+        startTime = now; 
+    }, 1000);
+
+    isRunning = true;
+}
+
+function pauseStopwatch() {
+    clearInterval(timerInterval);
+    isRunning = false;
+}
+
 function toggleStopwatch() {
     let startButton = document.getElementById('startButton');
     let stopButton = document.getElementById('stopButton');
 
     if (!isRunning) {
-        
-        startTime = Date.now();
-        timerInterval = setInterval(function() {
-            let now = Date.now();
-            elapsedTime = Math.max(0, 300000 - (now - startTime));
-            printTime();
-
-            if (elapsedTime <= 0) {
-                clearInterval(timerInterval);
-                document.getElementById('timer').classList.add('countdown-complete');
-            }
-        }, 1000); 
-
+        startStopwatch();
         startButton.style.display = 'none';
         stopButton.style.display = 'inline-block';
-        isRunning = true;
     } else {
-        
-        clearInterval(timerInterval);
+        pauseStopwatch();
         startButton.style.display = 'inline-block';
         stopButton.style.display = 'none';
-        isRunning = false;
     }
 }
 
@@ -51,11 +58,23 @@ function resetStopwatch() {
     let startButton = document.getElementById('startButton');
     let stopButton = document.getElementById('stopButton');
 
-    startButton.style.display = 'inline-block';
-    stopButton.style.display = 'none';
-    elapsedTime = 300000; 
+    startButton.style.display = 'none';
+    stopButton.style.display = 'inline-block';
+    elapsedTime = 300000;
     printTime();
     isRunning = false;
 }
 
-window.addEventListener('load', toggleStopwatch);
+window.addEventListener('load', function() {
+
+    startButton.style.display = 'none';
+    stopButton.style.display = 'inline-block';
+    startStopwatch(); 
+});
+
+document.getElementById('startButton').addEventListener('click', toggleStopwatch);
+document.getElementById('stopButton').addEventListener('click', toggleStopwatch);
+document.getElementById('resetButton').addEventListener('click', resetStopwatch);
+
+
+printTime();
